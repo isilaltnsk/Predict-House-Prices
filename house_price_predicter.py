@@ -1,15 +1,20 @@
+# These are my exercise codes to simply learn machine learning
+
+
+
 import pandas as pd
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.metrics import mean_absolute_error
-from sklearn.model_selection import train_test_split  # to break up the data in two pieces.
+from sklearn.model_selection import train_test_split   # to break up the data in two pieces.
 # We'll use some of that data as training data to fit the model, and we'll use the other data
 # as validation data to calculate mean_absolute_error
+from sklearn.ensemble import RandomForestRegressor
+
 
 # save filepath to variable for easier access
 melbourne_file_path = 'melb_data.csv'
 # read the data and store data in DataFrame titled melbourne_data
 melbourne_data = pd.read_csv(melbourne_file_path)
-# print a summary of the data in Melbourne data
 # print(melbourne_data)
 # print(melbourne_data.describe())
 # print(melbourne_data.columns)
@@ -76,6 +81,12 @@ candidate_max_leaf_nodes = [5,50,500,5000]
 scores = {leaf_size: get_mae(leaf_size, train_X, val_X, train_y, val_y) for leaf_size in candidate_max_leaf_nodes}
 best_tree_size = min(scores, key=scores.get)
 print(best_tree_size)
+
+# Random Forest part
+forest_model = RandomForestRegressor(random_state=1)
+forest_model.fit(train_X,train_y)
+melb_preds = forest_model.predict(val_X)
+print(mean_absolute_error(val_y, melb_preds))
 
 
 
